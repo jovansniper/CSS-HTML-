@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Chocolate Shop</title>
+  <style>
+    /* Global Reset & Base Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fffdfa;
+      color: #333;
+      line-height: 1.6;
+      /* Requirement 4: padding-top on body so fixed header doesn't overlap content */
+      padding-top: 70px;
+    }
+
+    /* -------------------------------------------------------------
+       1. POSITION: FIXED
+       ------------------------------------------------------------- */
+    /* Header pinned to top */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #3d2314; /* Distinct header color */
+      color: #ffffff;
+      padding: 12px 20px;
+      /* Requirement 4: z-index ensures header overlays content when scrolling */
+      z-index: 1000;
+    }
+
+    .shop-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      /* Using display: inline-block so title and nav stay on same line */
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* Navigation Menu */
+    nav {
+      display: inline-block;
+      float: right;
+    }
+
+    /* Requirement 3: display: inline-block for menu links */
+    nav a {
+      display: inline-block;
+      padding: 6px 14px;
+      margin-left: 5px;
+      background-color: #633a20;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    /* Fixed "Back to Top" Button in bottom-right corner */
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #7c4dff; /* Distinct purple color */
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      /* High z-index so it floats above all content */
+      z-index: 999;
+    }
+
+    /* -------------------------------------------------------------
+       2. POSITION: STICKY
+       ------------------------------------------------------------- */
+    /* Sticky section headers */
+    section h2 {
+      position: sticky;
+      top: 60px; /* Sticks right beneath the 60px fixed header */
+      background-color: #c46212; /* Brown/Orange color */
+      color: #ffffff;
+      padding: 12px 18px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      z-index: 10;
+    }
+
+    /* Section layout */
+    section {
+      padding: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 12px;
+    }
+
+    /* -------------------------------------------------------------
+       3. MANDATORY DISPLAY PROPERTIES
+       ------------------------------------------------------------- */
+    /* display: block */
+    .block-demo {
+      display: block;
+      background-color: #bbe2f7; /* Distinct blue color */
+      color: #1a4968;
+      padding: 12px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+
+    /* display: inline */
+    .inline-demo {
+      display: inline;
+      background-color: #fce4ec; /* Distinct light pink color */
+      color: #880e4f;
+      padding: 2px 6px;
+      font-weight: bold;
+      border-radius: 3px;
+    }
+
+    /* display: inline-block tags inside product cards */
+    .tag {
+      display: inline-block;
+      width: 110px;
+      padding: 6px 0;
+      text-align: center;
+      background-color: #64d8cb; /* Distinct teal color */
+      color: #004d40;
+      font-weight: bold;
+      font-size: 0.85rem;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    /* -------------------------------------------------------------
+       4. POSITION: RELATIVE & ABSOLUTE
+       ------------------------------------------------------------- */
+    /* Standalone relative box offset from its normal position */
+    .relative-demo {
+      position: relative;
+      top: 8px;
+      left: 30px;
+      background-color: #fbc02d; /* Distinct yellow color */
+      color: #333;
+      padding: 10px 15px;
+      display: inline-block;
+      margin-bottom: 25px;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+
+    /* Chocolate Product Card Container */
+    .card-container {
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    /* Cards arranged side-by-side using display: inline-block */
+    /* position: relative allows it to parent the absolute badge */
+    .card {
+      position: relative; 
+      display: inline-block;
+      width: 30%;
+      min-width: 220px;
+      margin-right: 2%;
+      margin-bottom: 15px;
+      vertical-align: top;
+      background-color: #f5e5d3;
+      border: 1px solid #d4b896;
+      border-radius: 8px;
+      padding: 20px 15px 15px 15px;
+    }
+
+    .card:last-child {
+      margin-right: 0;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    /* Absolute Badge positioned inside relative card */
+    .absolute-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #e53935; /* Distinct red color */
+      color: #ffffff;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    /* Footer Styling */
+    footer {
+      background-color: #333333;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FIXED HEADER -->
+  <header>
+    <div class="shop-title">🍫 Chocolate shop (position: fixed)</div>
+    <nav>
+      <a href="#welcome">Initial</a>
+      <a href="#chocolates">Chocolates</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT AREA -->
+  <main>
+    
+    <!-- SECTION 1 -->
+    <section id="welcome">
+      <h2>Welcome (position: sticky)</h2>
+      
+      <!-- DEMO: display: block -->
+      <div class="block-demo">
+        display: block - I take up an entire row
+      </div>
+
+      <p>
+        The best chocolate is <span class="inline-demo">display: inline in the middle of a sentence.</span>
+      </p>
+      <p>
+        Our chocolatier makes handmade chocolates from the finest cocoa. Fresh every day, always with love. 
+        Our chocolatier makes handmade chocolates from the finest cocoa. Fresh every day, always with love.
+      </p>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section id="chocolates">
+      <h2>Our chocolates (position: sticky)</h2>
+
+      <!-- DEMO: position: relative -->
+      <div class="relative-demo">
+        position: relative (top: 8px; left: 30px)
+      </div>
+
+      <!-- CARDS CONTAINER (3 side-by-side cards using display: inline-block) -->
+      <div class="card-container">
+        
+        <!-- CARD 1 -->
+        <div class="card">
+          <!-- DEMO: position: absolute -->
+          <span class="absolute-badge">absolute</span>
+          <h3>Dark chocolate</h3>
+          <p>70% cocoa, deep flavor.</p>
+          <!-- DEMO: display: inline-block -->
+          <span class="tag">inline-block</span>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card">
+          <span class="absolute-badge">absolute</span>
+          <h3>Milk chocolate</h3>
+          <p>Creamy and sweet.</p>
+          <span class="tag">inline-block</span>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="card">
+          <span class="absolute-badge">absolute</span>
+          <h3>A box of pralines</h3>
+          <p>12 pieces with hazelnuts.</p>
+          <span class="tag">inline-block</span>
+        </div>
+
+      </div>
+
+      <p>
+        Our chocolatier makes handmade chocolates from the finest cocoa. Fresh every day, always with love. 
+        Our chocolatier makes handmade chocolates from the finest cocoa. Fresh every day, always with love.
+      </p>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section id="how-to">
+      <h2>How to do it (position: sticky)</h2>
+      <p>
+        Our chocolatier makes handmade chocolates from the finest cocoa. Fresh every day, always with love. 
+        Our chocolatier makes handmade chocolates from the finest cocoa. Fresh every day, always with love.
+      </p>
+      <p>
+        Select your favorite cocoa percentages, choose your desired fillings (nuts, caramel, fruit), and let us craft your custom box.
+      </p>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section id="contact">
+      <h2>Contact (position: sticky)</h2>
+      <p>
+        Our chocolatier makes handmade chocolates from the finest cocoa. Fresh every day, always with love. 
+        Our chocolatier makes handmade chocolates from the finest cocoa. Fresh every day, always with love.
+      </p>
+      <p>
+        Visit our shop downtown or drop us an email for bulk orders and event catering!
+      </p>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Chocolatier. All rights reserved.</p>
+  </footer>
+
+  <!-- DEMO: position: fixed (Back to top button) -->
+  <a href="#" class="back-to-top">↑ fixed</a>
+
+</body>
+</html>
